@@ -8,6 +8,44 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) — versionnag
 
 ---
 
+## [0.3.0] — 2026-06-16
+
+### Ajouté
+
+- **IHM — boutons de transport explicites** (`gui.py`) : **REC**, **STOP**,
+  **REPLAY**, **AUTO**, **RAPPORT KPI** (au lieu des 3 boutons à bascule). États
+  colorés conformes à la demande :
+  - en attente : **REC rouge**, **STOP grisé** ;
+  - pendant l'enregistrement : **REC grisé + ● clignotant**, **STOP rouge** ;
+  - pendant le rejeu : **REC grisé**, **STOP rouge**.
+  Le bouton **STOP** interrompt l'action en cours (enregistrement, rejeu ou auto).
+- **Mode automatique** (bouton **⏱ AUTO**) : rejoue la session sélectionnée **en
+  boucle à intervalle régulier** (champ « Intervalle auto », **30 min** par
+  défaut via `config.AUTO_REPLAY_INTERVAL_MIN`, surchargé par
+  `WINMONITOR_AUTO_INTERVAL_MIN`). Branche la Couche 4 (scheduler) sur l'IHM et
+  répond à la spec « tourner toutes les 30 min ».
+- **Gestion des sessions** : chaque scénario peut être **renommé** (✏️) ou
+  **supprimé** (🗑️) depuis l'IHM. Nouvelles API `Scenario.rename()`,
+  `Scenario.delete()`, `Scenario.sanitize_name()`.
+- **Splash de chargement** (PyInstaller `Splash`, logo CHU) affiché dès la 1re
+  seconde du lancement de `winmonitor.exe` ; fermé par `gui.run()` (`pyi_splash`)
+  dès que la fenêtre est prête.
+- **Logo CHU** embarqué dans le binaire (`assets/logo_chu.png`) et affiché dans
+  l'en-tête (résolution via `sys._MEIPASS`).
+
+### Modifié
+
+- **IHM — thème clair lisible** : `ThemeMode.LIGHT` + fond blanc et palette CHU
+  Toulouse (corrige le fond sombre illisible).
+- Bouton **RAPPORT** renommé **« RAPPORT KPI »**.
+- Compatibilité icônes Flet (`ft.Icons` ≥ 0.25 / `ft.icons` 0.21–0.24).
+
+### Note d'architecture
+
+- Les **Couches 3 (KPI Collector, `winmonitor/kpi/`)** et **4 (Scheduler,
+  `winmonitor/scheduler/`)** existaient déjà côté code ; cette version les
+  **expose dans l'IHM** (RAPPORT KPI = couche 3, mode AUTO = couche 4).
+
 ## [0.2.3] — 2026-06-16
 
 ### Corrigé — Binaire Windows : client desktop Flet manquant

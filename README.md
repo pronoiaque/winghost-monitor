@@ -9,7 +9,7 @@
 ![License MIT](https://img.shields.io/badge/license-MIT-blue)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Windows](https://img.shields.io/badge/os-Windows-lightgrey)
-![Version](https://img.shields.io/badge/version-0.2.3-orange)
+![Version](https://img.shields.io/badge/version-0.3.0-orange)
 
 > ℹ️ **Refonte (fork) de WinGhost RPA.** Le code historique d'enregistrement /
 > rejeu (v6.x, monolithe Tkinter) reste disponible sur la branche `main`. Ce
@@ -51,19 +51,24 @@ Scheduler                  APScheduler par plage horaire (08h-09h, 12h, 17h…) 
 
 ## Interface graphique (Flet)
 
-Au **double-clic** sur `winmonitor.exe` (ou via `winmonitor gui`), l'application
-ouvre une fenêtre reprenant la logique « magnéto » de la v6.6.0 :
+Au **double-clic** sur `winmonitor.exe` (ou via `winmonitor gui`), un **splash de
+chargement** s'affiche immédiatement (le 1er démarrage onefile est long), puis
+la fenêtre s'ouvre sur fond clair aux couleurs CHU Toulouse (logo en en-tête).
+Barre de transport « magnéto » à **boutons explicites** :
 
 | Bouton | Comportement |
 |---|---|
-| 🔴 **REC** | Lance l'enregistrement ; bascule en **⏹ STOP REC** (rouge) jusqu'à l'arrêt (bouton ou ÉCHAP) |
-| ▶️ **REPLAY** | Rejoue le scénario sélectionné ; bascule en **⏹ STOP** (rouge) puis revient |
-| 📝 **RAPPORT** | (Re)génère le dashboard HTML et l'ouvre dans le navigateur |
+| 🔴 **REC** | Lance l'enregistrement. **Rouge** en attente ; **grisé + ● clignotant** pendant l'enregistrement |
+| ⏹ **STOP** | Arrête l'action en cours (REC / REPLAY / AUTO). **Grisé** au repos, **rouge** dès qu'une opération tourne |
+| ▶️ **REPLAY** | Rejoue le scénario sélectionné (grisé pendant l'activité) |
+| ⏱ **AUTO** | **Mode automatique** : rejoue le scénario en boucle à intervalle régulier (**30 min** par défaut, réglable) — répond à la spec « tourner toutes les 30 min » |
+| 📊 **RAPPORT KPI** | (Re)génère le dashboard HTML (Couche 3) et l'ouvre dans le navigateur |
 
 Le panneau **« Replay live »** décrit chaque action en temps réel (clic, saisie,
 touche, déplacement) avec son **temps de réponse visuel**, l'icône d'ancrage
-(🔍 template / 📌 absolu) et un statut coloré. La liste des scénarios est un
-**accordéon repliable**.
+(🔍 template / 📌 absolu) et un statut coloré. La liste des **sessions** est un
+accordéon repliable où chaque scénario peut être **renommé** (✏️) ou
+**supprimé** (🗑️).
 
 ---
 

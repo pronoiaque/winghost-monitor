@@ -69,3 +69,10 @@ STABLE_TIMEOUT        = 15.0     # secondes : au-delà, on déclare un timeout (
 # ─── Régression vs baseline (couche 3) ───────────────────────────────────────
 # Une mesure est « dégradée » si elle dépasse baseline_p95 * ce facteur.
 REGRESSION_FACTOR = 1.5
+
+# ─── Mode automatique (couche 4 / IHM) ───────────────────────────────────────
+# Rejoue le scénario sélectionné en boucle à intervalle régulier (« tourner
+# toutes les 30 min »). Surchargé par WINMONITOR_AUTO_INTERVAL_MIN.
+AUTO_REPLAY_INTERVAL_MIN = int(
+    os.environ.get("WINMONITOR_AUTO_INTERVAL_MIN", "30")
+)

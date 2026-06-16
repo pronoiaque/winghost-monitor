@@ -45,6 +45,10 @@ for pkg in ("flet", "flet_desktop"):
     binaries += b
     hiddenimports += h
 
+# Ressources du dépôt embarquées (logo CHU affiché dans l'en-tête de l'IHM,
+# résolu via sys._MEIPASS dans gui._resource).
+datas += [(str(PROJECT / "assets" / "logo_chu.png"), "assets")]
+
 # ─── Modules lourds/inutiles exclus (binaire plus compact) ────────────────────
 excludes = [
     "matplotlib", "pandas", "scipy", "IPython", "notebook", "jupyter",
@@ -68,9 +72,25 @@ a = Analysis(
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
+# ─── Splash de chargement ─────────────────────────────────────────────────────
+# Le 1er lancement de l'exe (déballage onefile + démarrage du client Flet) est
+# long : on affiche un splash DÈS la première seconde. gui.run() le ferme via
+# pyi_splash dès que la fenêtre Flet est prête.
+splash = Splash(
+    str(PROJECT / "assets" / "logo_chu.png"),
+    binaries=a.binaries,
+    datas=a.datas,
+    text_pos=(10, 10),
+    text_size=12,
+    text_color="black",
+    text_default="Chargement de WinGhost Monitor…",
+)
+
 exe = EXE(
     pyz,
     a.scripts,
+    splash,                  # splash : table d'amorçage
+    splash.binaries,         # splash : binaires d'affichage (Tk)
     a.binaries,
     a.zipfiles,
     a.datas,

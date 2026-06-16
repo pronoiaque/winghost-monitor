@@ -18,6 +18,8 @@ l'UI s'est déplacée (DPI, RDP, fenêtre repositionnée).
 from __future__ import annotations
 
 import json
+import re
+import shutil
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
@@ -135,3 +137,41 @@ class Scenario:
     @staticmethod
     def folder_for(scenarios_dir: Path, name: str) -> Path:
         return Path(scenarios_dir) / name
+
+    # ─── Gestion des sessions (IHM) ──────────────────────────────────────────
+    @staticmethod
+    def sanitize_name(name: str) -> str:
+        """Normalise un nom de scénario en nom de dossier sûr (sans séparateur)."""
+        name = (name or "").strip()
+        # Autorise lettres/chiffres/_-. ; remplace le reste par « _ ».
+        return re.sub(r"[^\w.\-]+", "_", name, flags=re.UNICODE).strip("._") or ""
+
+    @staticmethod
+    def delete(scenarios_dir: Path, name: str) -> None:
+        """Supprime définitivement le dossier d'un scénario (idempotent)."""
+        folder = Scenario.folder_for(scenarios_dir, name)
+        if folder.exists():
+            shutil.rmtree(folder)
+
+    @staticmethod
+    def rename(scenarios_dir: Path, old: str, new: str) -> Path:
+        """Renomme un scénario (dossier + champ `name` du JSON). Retourne le
+        nouveau dossier. Lève ValueError si le nom cible est invalide/déjà pris."""
+        new = Scenario.sanitize_name(new)
+        if not new:
+            raise ValueError("Nom de scénario invalide.")
+        src = Scenario.folder_for(scenarios_dir, old)
+        dst = Scenario.folder_for(scenarios_dir, new)
+        if not src.exists():
+            raise ValueError(f"Scénario introuvable : {old}")
+        if dst.exists():
+            raise ValueError(f"Un scénario « {new} » existe déjà.")
+        src.rename(dst)
+        # Met le champ `name` du JSON en cohérence avec le nouveau dossier.
+        path = dst / SCENARIO_FILE
+        if path.exists():
+            data = json.loads(path.read_text(encoding="utf-8"))
+            data["name"] = new
+            path.write_text(json.dumps(data, indent=2, ensure_ascii=False),
+                            encoding="utf-8")
+        return dst
