@@ -1,0 +1,57 @@
+name: build-windows
+
+# Produit le binaire mono-fichier Windows `winmonitor.exe` via PyInstaller.
+# PyInstaller ne sait pas cross-compiler : le build tourne donc sur un runner
+# `windows-latest`. L'exe est publié comme artefact à chaque push et attaché
+# en Release sur tag `v*`.
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write   # nécessaire pour attacher l'exe à une Release sur tag
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Garde-fou — cohérence des versions
+        run: python tools/check_version.py
+
+      - name: Installer les dépendances de build
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-build.txt
+
+      - name: Compiler le binaire (PyInstaller)
+        run: pyinstaller --noconfirm --clean winghost-monitor.spec
+
+      - name: Vérifier que l'exe se lance
+        run: .\dist\winmonitor.exe --version
+
+      - name: Publier l'artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: winmonitor-exe
+          path: dist/winmonitor.exe
+          if-no-files-found: error
+
+      - name: Attacher l'exe à la Release (tags v* uniquement)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/winmonitor.exe

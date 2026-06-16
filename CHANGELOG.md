@@ -8,6 +8,21 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) — versionnag
 
 ---
 
+## [0.2.1] — 2026-06-16
+
+### Ajouté — Build du binaire Windows (CI)
+
+- **`.github/workflows/build-windows.yml`** : workflow GitHub Actions sur
+  `windows-latest` qui compile `winmonitor.exe` (PyInstaller, depuis
+  `winghost-monitor.spec`). PyInstaller ne cross-compilant pas, le build doit
+  tourner sur un runner Windows.
+  - garde-fou de cohérence des versions (`tools/check_version.py`) avant build ;
+  - smoke-test `winmonitor.exe --version` après compilation ;
+  - exe **publié en artefact** à chaque push (onglet *Actions*) ;
+  - exe **attaché en Release** sur tag `v*`.
+
+---
+
 ## [0.2.0] — 2026-06-16
 
 ### Ajouté — Interface graphique Flet (logique « magnéto » v6.6.0)
