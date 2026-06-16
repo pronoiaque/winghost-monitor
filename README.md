@@ -9,7 +9,7 @@
 ![License MIT](https://img.shields.io/badge/license-MIT-blue)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Windows](https://img.shields.io/badge/os-Windows-lightgrey)
-![Version](https://img.shields.io/badge/version-0.2.1-orange)
+![Version](https://img.shields.io/badge/version-0.2.2-orange)
 
 > ℹ️ **Refonte (fork) de WinGhost RPA.** Le code historique d'enregistrement /
 > rejeu (v6.x, monolithe Tkinter) reste disponible sur la branche `main`. Ce
@@ -80,7 +80,9 @@ mono-fichier `winmonitor.exe` est produit par GitHub Actions
 (`.github/workflows/build-windows.yml`, PyInstaller sur `windows-latest`) :
 
 - **téléchargeable** comme artefact à chaque push (onglet *Actions*) ;
-- **publié en Release** sur tag `v*` (ex. `v0.1.1`).
+- **publié en Release** soit sur tag `v*` (ex. `v0.2.2`), soit **à la demande**
+  via *Actions → build-windows → Run workflow* en cochant `release` (le tag
+  `vX.Y.Z` est alors créé automatiquement depuis `version.py`, sans `git push`).
 
 L'exe embarque Flet (IHM), OpenCV (ancrage visuel), pynput, MSS et APScheduler.
 **Sans argument, il ouvre l'interface graphique** ; les sous-commandes CLI

@@ -8,6 +8,17 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) — versionnag
 
 ---
 
+## [0.2.2] — 2026-06-16
+
+### Ajouté — Release à la demande (sans push de tag)
+
+- **`build-windows.yml`** : entrée `workflow_dispatch` `release`. Quand elle est
+  cochée (*Run workflow*), l'action `softprops/action-gh-release` crée
+  elle-même le tag `vX.Y.Z` (lu dans `version.py`) côté GitHub via le
+  `GITHUB_TOKEN`, puis publie la Release avec `winmonitor.exe`. Permet de
+  publier une Release sans aucun `git push` de tag.
+- Étape `Lire la version applicative` exposant `version.__version__` au job.
+
 ## [0.2.1] — 2026-06-16
 
 ### Ajouté — Build du binaire Windows (CI)
