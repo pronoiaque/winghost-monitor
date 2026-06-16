@@ -17,6 +17,10 @@ APScheduler>=3.10.0
 
 # Interface graphique
 flet>=0.21.0
+# Client desktop Flet : package SÉPARÉ depuis Flet ≥ 0.21. Indispensable au
+# binaire (ft.app ouvre une fenêtre desktop) ; sinon Flet tente un pip install
+# à l'exécution, impossible dans un exe figé.
+flet-desktop>=0.21.0
 
 # Windows
 pywin32>=306

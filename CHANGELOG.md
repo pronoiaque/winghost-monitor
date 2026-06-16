@@ -8,6 +8,18 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) — versionnag
 
 ---
 
+## [0.2.3] — 2026-06-16
+
+### Corrigé — Binaire Windows : client desktop Flet manquant
+
+- **`requirements-build.txt`** : ajout de `flet-desktop>=0.21.0`. Depuis Flet
+  ≥ 0.21 le client desktop est un package SÉPARÉ ; sans lui, `winmonitor.exe`
+  plantait au lancement (`ModuleNotFoundError: flet_desktop`, puis tentative de
+  `pip install` impossible dans un exe figé).
+- **`winghost-monitor.spec`** : la collecte de `flet_desktop` n'est plus avalée
+  silencieusement (`try/except`) — le build échoue désormais franchement si le
+  client desktop est absent, pour ne plus jamais livrer un binaire cassé.
+
 ## [0.2.2] — 2026-06-16
 
 ### Ajouté — Release à la demande (sans push de tag)

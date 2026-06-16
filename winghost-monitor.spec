@@ -34,16 +34,16 @@ for pkg in ("apscheduler", "pynput", "mss", "pyautogui"):
     hiddenimports += collect_submodules(pkg)
 
 # Flet (IHM) embarque un client desktop + des données → collecte complète.
+# `flet_desktop` est OBLIGATOIRE : sans lui, l'exe lance un pip install à chaud
+# (impossible une fois figé). On échoue donc le build s'il manque, plutôt que de
+# livrer un binaire cassé.
 datas = []
 binaries = []
 for pkg in ("flet", "flet_desktop"):
-    try:
-        d, b, h = collect_all(pkg)
-        datas += d
-        binaries += b
-        hiddenimports += h
-    except Exception:
-        pass
+    d, b, h = collect_all(pkg)   # ImportError volontaire si le package manque
+    datas += d
+    binaries += b
+    hiddenimports += h
 
 # ─── Modules lourds/inutiles exclus (binaire plus compact) ────────────────────
 excludes = [
