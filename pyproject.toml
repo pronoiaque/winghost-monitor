@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "winghost-monitor"
+version = "0.1.1"
+description = "Supervision de la performance applicative (CHU Toulouse) : RPA visuel à 4 couches — recorder, replayer à ancrage OpenCV, chronomètre visuel + KPI SQLite, scheduler par plage horaire et dashboard HTML autonome"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Olivier Bendries", email = "pronoiaque@users.noreply.github.com" }
+]
+keywords = ["rpa", "monitoring", "performance", "opencv", "template-matching",
+            "apscheduler", "kpi", "windows", "rdp"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Monitoring",
+    "Topic :: Software Development :: Testing",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24.0",
+    "opencv-python>=4.8.0",
+    "mss>=9.0.0",
+    "pynput>=1.7.6",
+    "pyautogui>=0.9.54",
+    "Pillow>=10.0.0",
+    "APScheduler>=3.10.0",
+    "screeninfo>=0.8.1",
+    "pywin32>=306; sys_platform == 'win32'",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[project.urls]
+Homepage   = "https://github.com/pronoiaque/winghost-rpa"
+Repository = "https://github.com/pronoiaque/winghost-rpa"
+Changelog  = "https://github.com/pronoiaque/winghost-rpa/blob/main/CHANGELOG.md"
+
+[project.scripts]
+winmonitor = "winmonitor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["winmonitor*"]

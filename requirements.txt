@@ -1,0 +1,19 @@
+# Dépendances d'exécution de WinGhost Monitor.
+# (cf. pyproject.toml — source de vérité ; ce fichier sert au pip install rapide)
+
+# Couche 1 — Recorder
+pynput>=1.7.6
+mss>=9.0.0
+
+# Couche 2 — Replayer (ancrage visuel + injection)
+opencv-python>=4.8.0
+numpy>=1.24.0
+Pillow>=10.0.0
+pyautogui>=0.9.54
+screeninfo>=0.8.1
+
+# Scheduler
+APScheduler>=3.10.0
+
+# Windows uniquement
+pywin32>=306; sys_platform == "win32"
