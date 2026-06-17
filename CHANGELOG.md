@@ -8,6 +8,26 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) — versionnag
 
 ---
 
+## [0.3.1] — 2026-06-16
+
+### Corrigé
+
+- **IHM — crash au lancement** « *module 'flet.controls.border' has no attribute
+  'all'* » : le build tirait un Flet trop récent (package `flet.controls.*`
+  réécrit) incompatible avec l'API utilisée. **Flet épinglé à `0.24.1`** (+
+  `flet-desktop==0.24.1`) dans `requirements-build.txt`. Helpers défensifs
+  ajoutés (`_thin_border`, ouverture de dialogue via `page.open`/`page.dialog`).
+- **Démarrage très lent / splash tardif** : **UPX désactivé** dans le `.spec`.
+  En onefile, UPX décompresse les binaires à chaque lancement (plusieurs
+  dizaines de secondes avant le splash). L'exe est plus gros mais démarre
+  beaucoup plus vite et le splash apparaît tôt.
+
+### Connu (à améliorer)
+
+- Qualité des captures sur sessions RDP / écrans mis à l'échelle (DPI) :
+  la capture peut se faire en résolution logique. Les imagettes restent en PNG
+  sans perte ; piste = capture DPI-aware. Suivi pour une prochaine version.
+
 ## [0.3.0] — 2026-06-16
 
 ### Ajouté

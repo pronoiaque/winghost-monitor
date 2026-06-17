@@ -99,7 +99,11 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    # UPX DÉSACTIVÉ : en onefile, UPX recompresse les binaires et la
+    # décompression a lieu À CHAQUE lancement → démarrage très lent (le splash
+    # n'apparaît qu'après plusieurs dizaines de secondes). Exe plus gros mais
+    # démarrage nettement plus rapide.
+    upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False,           # appli fenêtrée (GUI Flet) → pas de console DOS

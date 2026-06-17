@@ -9,7 +9,7 @@
 ![License MIT](https://img.shields.io/badge/license-MIT-blue)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Windows](https://img.shields.io/badge/os-Windows-lightgrey)
-![Version](https://img.shields.io/badge/version-0.3.0-orange)
+![Version](https://img.shields.io/badge/version-0.3.1-orange)
 
 > ℹ️ **Refonte (fork) de WinGhost RPA.** Le code historique d'enregistrement /
 > rejeu (v6.x, monolithe Tkinter) reste disponible sur la branche `main`. Ce

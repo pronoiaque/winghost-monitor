@@ -38,6 +38,19 @@ from winmonitor import config
 # (≥ 0.25) ou `ft.icons` (0.21–0.24).
 _ICONS = getattr(ft, "Icons", None) or getattr(ft, "icons", None)
 
+
+def _thin_border(color: str = "#DCE6EE"):
+    """Bordure fine, tolérante aux variations d'API Flet (`ft.border.all` a
+    disparu de certaines versions). Renvoie None si l'API n'existe pas."""
+    for factory in (getattr(getattr(ft, "border", None), "all", None),
+                    getattr(getattr(ft, "Border", None), "all", None)):
+        if callable(factory):
+            try:
+                return factory(1, color)
+            except Exception:
+                pass
+    return None
+
 # ─── Palette CHU Toulouse (fond clair, lisible) ──────────────────────────────
 _BLUE = "#0091CE"        # bleu institutionnel CHU
 _BLUE_DARK = "#005B8F"
@@ -213,7 +226,7 @@ class MonitorGUI:
             self._status,
             ft.Container(content=self._live, expand=True, border_radius=8,
                          bgcolor=_PANEL, padding=10,
-                         border=ft.border.all(1, "#DCE6EE")),
+                         border=_thin_border()),
         ], expand=True)
 
         p.add(header, ft.Divider(height=10, color="transparent"),
@@ -324,15 +337,22 @@ class MonitorGUI:
 
     # ─── Dialogues (renommer / supprimer une session) ─────────────────────────
     def _open_dialog(self, dlg: ft.AlertDialog) -> None:
-        if dlg not in self.page.overlay:
-            self.page.overlay.append(dlg)
-        self.page.dialog = dlg
-        dlg.open = True
-        self._safe_update()
+        # Flet ≥ 0.23 : page.open(dlg) ; antérieurs : page.dialog + open.
+        opener = getattr(self.page, "open", None)
+        if callable(opener):
+            opener(dlg)
+        else:
+            self.page.dialog = dlg
+            dlg.open = True
+            self._safe_update()
 
     def _close_dialog(self, dlg: ft.AlertDialog) -> None:
-        dlg.open = False
-        self._safe_update()
+        closer = getattr(self.page, "close", None)
+        if callable(closer):
+            closer(dlg)
+        else:
+            dlg.open = False
+            self._safe_update()
 
     def _ask_rename(self, name: str) -> None:
         field = ft.TextField(label="Nouveau nom", value=name, autofocus=True)
