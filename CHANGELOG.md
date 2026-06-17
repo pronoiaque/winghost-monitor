@@ -8,6 +8,16 @@ Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) — versionnag
 
 ---
 
+## [0.3.2] — 2026-06-17
+
+### Corrigé
+
+- **Build cassé par l'épinglage 0.24.1** : `flet-desktop` n'existe pas en
+  0.24.1 (plus ancienne release : 0.25.0) → `No matching distribution found`.
+  Les deux paquets sont désormais épinglés à **`0.28.3`**, dernière version de
+  l'ère « API classique » (avant la réécriture `flet.controls.*` en 0.80+)
+  publiée à la fois pour `flet` et `flet-desktop`.
+
 ## [0.3.1] — 2026-06-16
 
 ### Corrigé

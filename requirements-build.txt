@@ -16,15 +16,17 @@ screeninfo>=0.8.1
 APScheduler>=3.10.0
 
 # Interface graphique — VERSION ÉPINGLÉE.
-# L'IHM est écrite pour l'API Flet 0.24 (ft.border.all, page.dialog, ft.icons…).
-# Les Flet récents (package « flet.controls.* » réécrit) cassent ces API
-# (ex. « module 'flet.controls.border' has no attribute 'all' »). On épingle
-# donc une version 0.24.x stable, et le client desktop à la MÊME version.
-flet==0.24.1
-# Client desktop Flet : package SÉPARÉ depuis Flet ≥ 0.21. Indispensable au
-# binaire (ft.app ouvre une fenêtre desktop) ; sinon Flet tente un pip install
-# à l'exécution, impossible dans un exe figé. DOIT matcher la version de flet.
-flet-desktop==0.24.1
+# L'IHM utilise l'API « classique » de Flet (ft.border.all, page.dialog,
+# ft.Icons…), disponible jusqu'à la série 0.28.x. La réécriture « flet.controls.*
+# » (série 0.80+) casse ces API (ex. « module 'flet.controls.border' has no
+# attribute 'all' »). On épingle donc 0.28.3 — DERNIÈRE version de l'ère
+# classique publiée À LA FOIS pour flet ET flet-desktop (flet-desktop n'existe
+# pas en 0.24.x : sa plus ancienne release est 0.25.0).
+flet==0.28.3
+# Client desktop Flet : package SÉPARÉ. Indispensable au binaire (ft.app ouvre
+# une fenêtre desktop) ; sinon Flet tente un pip install à l'exécution,
+# impossible dans un exe figé. DOIT matcher la version de flet.
+flet-desktop==0.28.3
 
 # Windows
 pywin32>=306
